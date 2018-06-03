@@ -11,14 +11,16 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 @Configuration
 public class InternationalizationConfig implements WebMvcConfigurer {
 
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+        resourceBundleMessageSource.setDefaultEncoding(UTF_8.name());
         resourceBundleMessageSource.setBasename("translations");
-        resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         return resourceBundleMessageSource;
     }
 

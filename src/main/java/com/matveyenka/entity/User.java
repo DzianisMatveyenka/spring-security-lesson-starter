@@ -1,6 +1,8 @@
 package com.matveyenka.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -12,27 +14,23 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author i.sukach
- */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "security_storage")
 public class User extends BaseEntity {
+
     @Column(name = "name")
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "password")
-    @Getter
-    @Setter
     private String password;
 
-    @JoinTable(name = "users_roles",
+    @ManyToMany
+    @JoinTable(name = "user_role", schema = "security_storage",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @ManyToMany
-    @Getter
-    @Setter
     private Set<Role> roles = new HashSet<>();
 }

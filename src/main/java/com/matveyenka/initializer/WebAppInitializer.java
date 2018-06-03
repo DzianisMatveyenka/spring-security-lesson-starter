@@ -1,4 +1,4 @@
-package com.matveyenka;
+package com.matveyenka.initializer;
 
 import com.matveyenka.config.PersistenceConfig;
 import com.matveyenka.config.SecurityConfig;

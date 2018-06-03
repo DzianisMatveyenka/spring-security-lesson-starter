@@ -3,12 +3,8 @@ package com.matveyenka.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-
-/**
- * @author i.sukach
- */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {

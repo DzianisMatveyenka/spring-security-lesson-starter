@@ -8,38 +8,32 @@ import org.springframework.core.GenericTypeResolver;
 
 import java.util.List;
 
-/**
- * @author i.sukach
- */
 public class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    private final Class<T> modelClass;
+    private final Class<T> clazz;
 
     @SuppressWarnings("unchecked")
     public BaseDaoImpl() {
-        modelClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), BaseDaoImpl.class);
+        clazz = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), BaseDaoImpl.class);
     }
 
     @Override
     public T findOne(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(modelClass, id);
+        return sessionFactory.getCurrentSession().get(clazz, id);
     }
 
     @Override
-    public void save(T entity) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(entity);
+    public Long save(T entity) {
+        return (Long) sessionFactory.getCurrentSession().save(entity);
     }
 
     @Override
     public List<T> findAll() {
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery("from " + modelClass.getSimpleName(), modelClass).getResultList();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from " + clazz.getSimpleName(), clazz)
+                .getResultList();
     }
 
     protected Session getCurrentSession() {

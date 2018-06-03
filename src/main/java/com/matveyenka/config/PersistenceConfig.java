@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
@@ -29,15 +31,6 @@ public class PersistenceConfig {
     @Value("${jdbc.password}")
     private String password;
 
-    @Value("${hibernate.dialect}")
-    private String dialect;
-    @Value("${hibernate.show_sql}")
-    private String showSql;
-    @Value("${hibernate.format_sql}")
-    private String formatSql;
-    @Value("${hibernate.creation_policy}")
-    private String creationPolicy;
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -49,21 +42,19 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    public LocalSessionFactoryBean sessionFactory(Properties hibernateProperties) {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(dataSource());
         localSessionFactoryBean.setPackagesToScan("com.matveyenka.entity");
-        localSessionFactoryBean.setHibernateProperties(hibernateProperties());
+        localSessionFactoryBean.setHibernateProperties(hibernateProperties);
         return localSessionFactoryBean;
     }
 
     @Bean
-    public Properties hibernateProperties() {
+    public Properties hibernateProperties(@Value("classpath:hibernate.properties") Resource resource) throws IOException {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", dialect);
-        properties.setProperty("hibernate.show_sql", showSql);
-        properties.setProperty("hibernate.format_sql", formatSql);
-        properties.setProperty("hibernate.hbm2ddl.auto", creationPolicy);
+        properties.load(resource.getInputStream());
+
         return properties;
     }
 

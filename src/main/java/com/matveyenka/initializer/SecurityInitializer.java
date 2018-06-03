@@ -1,4 +1,4 @@
-package com.matveyenka;
+package com.matveyenka.initializer;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
