@@ -1,6 +1,6 @@
 Глобальная цель: сконфигурировать приложение с различными правами доступа для разных страниц.
 К странице home.html должны иметь доступ все аутентифицированные пользователи.
-К странице home.html только пользователи с ролью 'ADMIN'
+К странице admin.html только пользователи с ролью 'ADMIN'
 К странице /login - любые пользователи
 
 Перед тем, как приступить к заданию, прогнать spring_security_db.sql для создания и заполнения базы.
@@ -10,6 +10,7 @@
 
 Ссылка на документацию:
 https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#abstractsecuritywebapplicationinitializer
+https://github.com/thymeleaf/thymeleaf-extras-springsecurity
 
 1. Добавить реализацию метода loadUserByUsername в UserServiceImpl
 2. Сконфигурировать доступ пользователей в SecurityConfig
